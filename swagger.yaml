@@ -1,0 +1,233 @@
+openapi: 3.0.0
+info:
+  title: Learn Express and Swagger
+  description: Wale-Code - all about writing docs
+  version: 1.1.0
+  contact:
+    email: walephlp@gmail.com
+    url: "https://github.com/waley-code"
+
+# servers:
+#   - url: "https://localhost:4000/api/vi"
+#     description: localhost - secured
+#   - url: "http://localhost:4000/api/vi"
+#     description: localhost - regular
+
+servers:
+  - url: "{protocol}://localhost:4000/api/{version}"
+    description: localhost
+    variables:
+      version:
+        enum:
+          - v1
+          - v2
+        default: v1
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /wale:
+    get:
+      tags:
+        - String
+      summary: returns a greeting message from wale
+      responses:
+        200:
+          description: Displays success
+          content: 
+            application/json:
+              schema:
+                type: string
+                example: "mystring"
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  /waleObject:
+    get:
+      tags:
+        - Object
+      summary: returns a unique course
+      responses:
+        200:
+          description: Displays success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+
+  /courses:
+    get:
+      tags:
+        - Array
+      summary: returns all courses
+      responses:
+        200:
+          description: Displays success
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    price:
+                      type: number
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  /mycourses/{courseId}:
+    get:
+      tags:
+        - String
+      summary: returns courses based on request Id
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          default: 22
+          schema:
+            type: string
+      responses:
+        200:
+          description: Displays success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  
+  /addCourse:
+    post:
+      tags:
+        - String
+      summary: posts or adds new course based input
+      consumes: 
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: number
+      responses:
+        200:
+          description: Displays add successfully
+          content: 
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  
+  /courseQuery:
+    get:
+      tags:
+        - String
+      summary: Learning about query
+      parameters:
+        - name: location
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [lagos, Abuja, Ogun]
+        - name: device
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [web, mobile] 
+      responses:
+        200:
+          description: Displays add successfully
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+                  device:
+                    type: string
+
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  /courseUpload:
+    post:
+      tags:
+        - String
+      summary: Uploading course image
+      parameters:
+        - in: header
+          name: auth
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Displays add successfully
+
+        400:
+          description: Displays Bad request
+        500:
+          description: Displays Internal server error
+  

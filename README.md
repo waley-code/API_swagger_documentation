@@ -1,5 +1,11 @@
 # API Swagger Documentation
 
+### Tools
+    1. JavaScript (script language)
+    2. Nodejs (runtime)
+    3. express (framework)
+    4. nodemon (devDependen...)
+    5. Swagger (documentation)
 
 ### API Design API Development API Documentation API Testing API Mocking and Virtualization API Governance API Monitoring OpenAPI & Swagger
 
